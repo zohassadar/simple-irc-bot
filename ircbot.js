@@ -31,6 +31,9 @@ const ircNick = process.env['IRCNICK'] || 'bot';
 const ircUser = process.env['IRCUSER'] || 'zobot';
 const ircName = process.env['IRCNAME'] || 'I AM BOT';
 
+const LINELIMIT = 5;
+const CHARLIMIT = 1000;
+
 supportedLangs = {
     bash: ['bash', '-c'],
     '#': ['bash', '-c'],
@@ -106,12 +109,14 @@ function evaluateCode(lang, script, msgCallback, errorCallback) {
 
     const ac = new AbortController();
     const signal = ac.signal;
-    const charLimit = 465;
+    const charLimit = 450;
 
     let result = spawn('podman', args);
-    let lineCounter = 5;
+    let lineCounter = LINELIMIT;
+    let charCounter = CHARLIMIT;
     let killed = false;
     let outputSent = false;
+    let segment;
 
     function podmanKiller(reason) {
         killed = true;
@@ -121,19 +126,23 @@ function evaluateCode(lang, script, msgCallback, errorCallback) {
 
     function responder(data, color) {
         if (killed) return;
-        for (line of data.toString().trim().split(/\n/)) {
-            if (lineCounter < 1) {
-                podmanKiller('line limit exceeded');
-                break;
-            }
+        outer: for (line of data.toString().trim().split(/\n/)) {
             line = line.trim().replace(/ +/g, ' ');
             if (!line.length) continue;
             outputSent = true;
-            lineCounter -= 1;
-
-            msgCallback(`${color}${line.slice(0, charLimit)}`);
-            if (line.length > charLimit) {
-                podmanKiller('message truncated');
+            inner: for (i = 0; i < line.length; i += charLimit) {
+                if (lineCounter < 1) {
+                    podmanKiller(`line limit exceeded: ${LINELIMIT}`);
+                    break outer;
+                }
+                if (charCounter < 1) {
+                    podmanKiller(`char limit exceeded: ${CHARLIMIT}`);
+                    break outer;
+                }
+                segment = line.slice(i, i + charLimit);
+                lineCounter -= 1;
+                charCounter -= segment.length;
+                msgCallback(`${color}${segment}`);
             }
         }
     }
