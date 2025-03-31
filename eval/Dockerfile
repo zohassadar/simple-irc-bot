@@ -7,6 +7,18 @@ RUN : && \
     nodejs \
     python \
     vim \
+    git \
+    && :
+
+RUN : \
+    && mkdir -p src \
+    && cd src \
+    && git clone https://github.com/phy1729/seq \
+    && cd seq \
+    && make \
+    && mv seq /bin/ \
+    && cd / \
+    && rm -rf /src/ \
     && :
 
 WORKDIR /root
