@@ -1,0 +1,13 @@
+diff --git a/seq.c b/seq.c
+index ed7e4c7..55af02e 100644
+--- a/seq.c
++++ b/seq.c
+@@ -156,7 +156,7 @@ printnum(int64_t num) {
+ 			printf("%s hundred", simple_nums[part/100]);
+ 			part %= 100;
+ 			if (part > 0) {
+-				printf(" and ");
++				printf(" "); // American style, no and
+ 			}
+ 		}
+ 
