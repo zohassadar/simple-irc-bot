@@ -16,7 +16,7 @@ RUN : \
     && git clone https://github.com/phy1729/seq \
     && cd seq \
     && make \
-    && mv seq /bin/ \
+    && mv seq /bin/wseq \
     && cd / \
     && rm -rf /src/ \
     && :
