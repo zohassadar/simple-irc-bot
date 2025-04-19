@@ -19,7 +19,7 @@ RUN : && \
 ENV CFLAGS="-Wno-implicit-function-declaration"
 RUN : \
     && wget https://ftp.gnu.org/gnu/bash/bash-4.4.tar.gz \
-    && tar xvfz bash-4.4.tar.gz \
+    && tar xvfz bash-4.4.tar.gz || true \
     && cd bash-4.4 \
     && ./configure \
     && make \
@@ -34,7 +34,7 @@ RUN : \
     && git checkout devel \
     && ./configure \
     && make \
-    && mv /bash/bash /usr/sbin/bash-devel \
+    && mv /bash/bash /usr/sbin/bashdevel \
     && cd / \
     && rm -rf /bash \
     && :
