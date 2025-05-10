@@ -62,7 +62,7 @@ ARG FORTUNE_VER="3.22.0"
 COPY not-a-game.patch /
 RUN : \
     && wget https://github.com/shlomif/fortune-mod/releases/download/fortune-mod-${FORTUNE_VER}/fortune-mod-${FORTUNE_VER}.tar.xz \
-    && tar xvf fortune-mod-${FORTUNE_VER}.tar.xz \
+    && tar xvf fortune-mod-${FORTUNE_VER}.tar.xz || true \
     && cd fortune-mod-${FORTUNE_VER} \
     && patch -p1 -i ../not-a-game.patch \
     &&   cmake \
