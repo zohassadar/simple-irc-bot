@@ -47,8 +47,6 @@ supportedLangs = {
     'dash': ['dash', '-c'],
     'ksh': ['ksh', '-c'],
     'zsh': ['zsh', '-c'],
-    'bash4.4': ['bash4.4', '-c'],
-    'bashdevel': ['bashdevel', '-c'],
 };
 
 supportedCommands = {
