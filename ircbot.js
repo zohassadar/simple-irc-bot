@@ -43,10 +43,10 @@ supportedLangs = {
     perl: ['perl', '-e'],
     python: ['python', '-c'],
     '>>>': ['python', '-c'],
-    'fish': ['fish', '-c'],
-    'dash': ['dash', '-c'],
-    'ksh': ['ksh', '-c'],
-    'zsh': ['zsh', '-c'],
+    fish: ['fish', '-c'],
+    dash: ['dash', '-c'],
+    ksh: ['ksh', '-c'],
+    zsh: ['zsh', '-c'],
 };
 
 supportedCommands = {
@@ -118,6 +118,10 @@ function evaluateCode(lang, script, msgCallback, errorCallback) {
     let result = spawn('podman', args);
     let lineCounter = LINELIMIT;
     let charCounter = CHARLIMIT;
+    if (!!script.match('fortune')) {
+        lineCounter = 20;
+        charCounter = 5000;
+    }
     let killed = false;
     let outputSent = false;
     let segment;
