@@ -2,14 +2,8 @@ FROM docker.io/library/archlinux:latest
 
 RUN : && \
     pacman -Syu --noconfirm \
-    archlinux-keyring \
-    && :
-
-RUN : && \
-    pacman -Syu --noconfirm \
     base-devel \
     nodejs \
-    dictd \
     python \
     vim \
     git \
@@ -81,18 +75,6 @@ RUN : \
     && cmake --install build \
     && cd .. \
     && rm -rf fortune-mod-${FORTUNE_VER} \
-    && :
-
-
-RUN : \
-    && mkdir -p /src \
-    && cd /src \
-    && git clone https://aur.archlinux.org/dict-gcide.git \
-    && cd dict-gcide \
-    && useradd abc123 \
-    && chown -R abc123:abc123 . \
-    && sudo -u abc123 makepkg \
-    && pacman --no-confirm -U dict-gcide-0.54-3-any.pkg.tar.zst \
     && :
 
 RUN : && \
