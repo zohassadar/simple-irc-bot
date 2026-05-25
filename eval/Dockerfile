@@ -77,6 +77,8 @@ RUN : \
     && rm -rf fortune-mod-${FORTUNE_VER} \
     && :
 
+COPY dict /usr/bin/
+
 RUN : && \
     pacman -Rns --noconfirm \
     wget \
